@@ -1,8 +1,8 @@
 steps:
   - id: 'branch name'
-  name: 'alpine'
-  entrypoint: 'sh'
-  args: |
+   name: 'alpine'
+   entrypoint: 'sh'
+   args: |
         echo "******************************"
         echo "$BRANCH_NAME"
         echo "******************************"
