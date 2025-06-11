@@ -1,34 +1,40 @@
 steps:
-  - id: 'branch name'
-   name: 'alpine'
-   entrypoint: 'sh'
-   args: |
+  # This step is great for debugging which branch is running
+  - id: "Branch Name"
+    name: "alpine" # A lightweight image for running simple shell commands
+    entrypoint: "sh"
+    args:
+      - "-c"
+      - |
         echo "******************************"
-        echo "$BRANCH_NAME"
+        echo "Executing build for branch: $BRANCH_NAME"
         echo "******************************"
-  
-  - id: 'tf init'
-    name: 'harchicorp/terraform1.0.0'
-    entrypoint: '-c'
-    args: |
-         terraform init
-  
-  - id: 'tf plan'
-    name: 'harchicorp/terraform1.0.0'
-    entrypoint: '-c'
-    args: |
-         terraform plan
 
- - id: 'tf apply'
-   name: 'harchicorp/terraform1.0.0'
-   entrypoint: '-c'
-   args: |
-        if [[ "$BRANCH_NAME == "prod""]]; then
-          echo "Branch is 'prod', processing with terraform apply."
-          terraform apply --auto-approve
-          exit 0
-        else 
+  # Initialize Terraform
+  - id: "Terraform Init"
+    name: "hashicorp/terraform:1.0.0" # Correct builder name
+    entrypoint: "terraform"
+    args: ["init"]
+    # dir: 'terraform' # Optional: uncomment if your .tf files are in a sub-directory
+
+  # Generate a Terraform Plan
+  - id: "Terraform Plan"
+    name: "hashicorp/terraform:1.0.0"
+    entrypoint: "terraform"
+    args: ["plan"]
+    # dir: 'terraform' # Optional: uncomment if your .tf files are in a sub-directory
+
+  # Conditionally Apply the Terraform Plan
+  - id: "Terraform Apply"
+    name: "hashicorp/terraform:1.0.0"
+    entrypoint: "sh" # Use shell to run the if/else logic
+    args:
+      - "-c"
+      - |
+        # The 'if' condition will only run 'terraform apply' on the 'prod' branch
+        if [ "$BRANCH_NAME" = "prod" ]; then
+          echo "Branch is 'prod', applying Terraform changes."
+          terraform apply -auto-approve
+        else
           echo "Branch is not 'prod', skipping terraform apply."
-          exit 0
         fi
-         
