@@ -1,0 +1,34 @@
+steps:
+  - id: 'branch name'
+  name: 'alpine'
+  entrypoint: 'sh'
+  args: |
+        echo "******************************"
+        echo "$BRANCH_NAME"
+        echo "******************************"
+  
+  - id: 'tf init'
+  name: 'harchicorp/terraform1.0.0'
+  entrypoint: '-c'
+  args: |
+         terraform init
+  
+   id: 'tf plan'
+  name: 'harchicorp/terraform1.0.0'
+  entrypoint: '-c'
+  args: |
+         terraform plan
+
+ id: 'tf apply'
+  name: 'harchicorp/terraform1.0.0'
+  entrypoint: 'c'
+  args: |
+        if [[ "$BRANCH_NAME == "prod""]]; then
+          echo "Branch is 'prod', processing with terraform apply."
+          terraform apply --auto-approve
+          exit 0
+        else 
+          echo "Branch is not 'prod', skipping terraform apply."
+          exit 0
+        fi
+         
