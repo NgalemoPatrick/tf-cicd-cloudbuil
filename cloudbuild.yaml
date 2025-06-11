@@ -19,7 +19,7 @@ steps:
   args: |
          terraform plan
 
- id: 'tf apply'
+ - id: 'tf apply'
   name: 'harchicorp/terraform1.0.0'
   entrypoint: 'c'
   args: |
