@@ -42,3 +42,4 @@ steps:
 # Explicitly set the logging option to avoid permissions issues with log buckets.
 options:
   logging: CLOUD_LOGGING_ONLY
+#end
