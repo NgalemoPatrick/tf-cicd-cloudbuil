@@ -13,7 +13,7 @@ steps:
   args: |
          terraform init
   
-   id: 'tf plan'
+   - id: 'tf plan'
   name: 'harchicorp/terraform1.0.0'
   entrypoint: '-c'
   args: |
