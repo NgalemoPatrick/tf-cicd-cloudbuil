@@ -9,7 +9,8 @@ steps:
         echo "******************************"
         echo "Executing build for branch: $BRANCH_NAME"
         echo "******************************"
-    options: CLOUD_LOGGING_ONLY
+    options:
+      logging: CLOUD_LOGGING_ONLY
 
   # Initialize Terraform
   - id: "Terraform Init"
