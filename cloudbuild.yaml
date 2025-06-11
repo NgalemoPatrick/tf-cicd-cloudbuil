@@ -9,8 +9,6 @@ steps:
         echo "******************************"
         echo "Executing build for branch: $BRANCH_NAME"
         echo "******************************"
-    options:
-      logging: CLOUD_LOGGING_ONLY
 
   # Initialize Terraform
   - id: "Terraform Init"
@@ -40,3 +38,7 @@ steps:
         else
           echo "Branch is not 'prod', skipping terraform apply."
         fi
+
+# Explicitly set the logging option to avoid permissions issues with log buckets.
+options:
+  logging: CLOUD_LOGGING_ONLY
