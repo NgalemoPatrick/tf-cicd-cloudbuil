@@ -21,7 +21,7 @@ steps:
 
  - id: 'tf apply'
   name: 'harchicorp/terraform1.0.0'
-  entrypoint: 'c'
+  entrypoint: '-c'
   args: |
         if [[ "$BRANCH_NAME == "prod""]]; then
           echo "Branch is 'prod', processing with terraform apply."
